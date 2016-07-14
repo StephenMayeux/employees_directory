@@ -20,8 +20,8 @@ Meteor.startup(() => {
     });
   }
   // publish, aka responses, are only on the server
-  Meteor.publish('employees', function() {
-    return Employees.find({}, { limit: 20 });
+  Meteor.publish('employees', function(per_page) {
+    return Employees.find({}, { limit: per_page });
   });
 
 });
