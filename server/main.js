@@ -1,12 +1,14 @@
 // only executed on the server
 import _ from 'lodash';
-import { image, helpers } from 'faker';
-import { Meteor } from 'meteor';
+//import { Meteor } from 'meteor/meteor'; // why ??
 import { Employees } from '../imports/collections/employees';
+import { image, helpers } from 'faker';
 
 Meteor.startup(() => {
   // generate data if none exists
   const numRecords = Employees.find({}).count();
+  console.log(numRecords);
+
   if (!numRecords) {
     // generate data
     _.times(5000, () => {
@@ -17,4 +19,9 @@ Meteor.startup(() => {
       });
     });
   }
+  // publish, aka responses, are only on the server
+  Meteor.publish('employees', function() {
+    return Employees.find({}, { limit: 20 });
+  });
+
 });
